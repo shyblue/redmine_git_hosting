@@ -49,6 +49,9 @@ module RedmineGitHosting
         rescue Rugged::NetworkError => e
           logger.error 'Access denied for Gitolite Admin SSH Keys'
           logger.error(e.message)
+        rescue Rugged::OSError => e
+          logger.error 'Invalid connection params'
+          logger.error(e.message)
         rescue Rugged::RepositoryError => e
           logger.error "Gitolite couldn't write to its admin repo copy"
           logger.error "Try recreating '#{gitolite_admin_dir}'"
@@ -85,7 +88,7 @@ module RedmineGitHosting
       def gitolite_admin_settings
         {
           git_user:     RedmineGitHosting::Config.gitolite_user,
-          host:         "#{RedmineGitHosting::Config.gitolite_server_host}:#{RedmineGitHosting::Config.gitolite_server_port}",
+          hostname:     "#{RedmineGitHosting::Config.gitolite_server_host}:#{RedmineGitHosting::Config.gitolite_server_port}",
           author_name:  RedmineGitHosting::Config.git_config_username,
           author_email: RedmineGitHosting::Config.git_config_email,
           public_key:   RedmineGitHosting::Config.gitolite_ssh_public_key,

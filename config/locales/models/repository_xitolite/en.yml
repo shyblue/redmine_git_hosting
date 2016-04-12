@@ -40,6 +40,8 @@ en:
   label_git_objects_count: Git objects count
   label_empty_repository: Empty repository?
   label_sort_urls: (Sort urls)
+  label_git_notification_sender: Mailing list sender address
+  label_git_notification_prefix: Mailing list prefix
 
   notice_gitolite_extra_updated: Options successfully updated
   notice_gitolite_extra_update_failed: Errors while updating options
@@ -49,7 +51,8 @@ en:
   label_git_annex: GitAnnex
 
   # Repository code browser
-  label_download_format: Download as %{archive_format}
+  label_download_format: Download as
+  label_download_select_format: Select format
   error_download_revision_no_such_commit: "No such commit %{commit}"
 
   # Repositories URL (labels)

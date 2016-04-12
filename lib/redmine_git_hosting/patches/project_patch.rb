@@ -7,8 +7,6 @@ module RedmineGitHosting
       def self.included(base)
         base.send(:include, InstanceMethods)
         base.class_eval do
-          unloadable
-
           # Add custom scope
           scope :active_or_closed, -> { where("status = #{Project::STATUS_ACTIVE} OR status = #{Project::STATUS_CLOSED}") }
 
@@ -35,7 +33,28 @@ module RedmineGitHosting
         end
 
 
+        def users_available
+          get_members_available('User')
+        end
+
+
+        def groups_available
+          get_members_available('Group')
+        end
+
+
         private
+
+
+          def get_members_available(klass)
+            scope = old_redmine_version? ? member_principals : memberships.active
+            scope.map(&:principal).select { |m| m.class.name == klass }.uniq.sort
+          end
+
+
+          def old_redmine_version?
+            Redmine::VERSION::MAJOR < 3 || (Redmine::VERSION::MAJOR <= 3 && Redmine::VERSION::MINOR == 0)
+          end
 
 
           def additional_constraints_on_identifier

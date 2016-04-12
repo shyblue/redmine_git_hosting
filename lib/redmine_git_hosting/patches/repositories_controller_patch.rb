@@ -8,8 +8,6 @@ module RedmineGitHosting
         base.send(:include, InstanceMethods)
         base.send(:include, RedmineGitHosting::GitoliteAccessor::Methods)
         base.class_eval do
-          unloadable
-
           alias_method_chain :show,    :git_hosting
           alias_method_chain :create,  :git_hosting
           alias_method_chain :update,  :git_hosting
@@ -21,6 +19,7 @@ module RedmineGitHosting
           before_filter :set_current_tab, only: :edit
 
           helper :redmine_bootstrap_kit
+          helper :watchers
 
           # Load ExtendRepositoriesHelper so we can call our
           # additional methods.
